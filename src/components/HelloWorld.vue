@@ -51,7 +51,8 @@
                             <v-icon>mdi-account-circle</v-icon>
                         </v-list-item-avatar>
                         <v-list-item-avatar>
-                            <v-img :src="item.avatar"></v-img>
+                            <v-img :src=" item.avatar ">
+                            </v-img>
                         </v-list-item-avatar>
 
 
@@ -61,7 +62,7 @@
                         </v-list-item-icon>
 
                         <!--Ф.И.О + вакансия-->
-                        <v-list-item-content @click="Editing(item)" style="cursor: pointer">
+                        <v-list-item-content @click=" Editing(item) " style="cursor: pointer">
                             <v-list-item-title v-html="item.title"></v-list-item-title>
                             <v-list-item-subtitle>
                                 Вакансия: {{item.subtitle}}
@@ -128,11 +129,11 @@
                         <!--Рейтинг соискателя-->
                         <div class="text-center">
                             <v-rating
-                                    background-color="indigo lighten-3"
-                                    color="indigo"
                                     :dense='true'
                                     :half-increments='true'
                                     :hover='true'
+                                    background-color="indigo lighten-3"
+                                    color="indigo"
                                     v-model="rating"
                             ></v-rating>
                             <span class="grey--text text--lighten-2 caption mr-2">
@@ -193,7 +194,7 @@
                                 <v-icon>mdi-account-circle</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-avatar>
-                                <v-img :src="messageAvatar"></v-img>
+                                <v-img :src=" messageAvatar "></v-img>
                             </v-list-item-avatar>
 
                             <v-list>
@@ -286,187 +287,185 @@
 </template>
 
 <script>
-    import CreateNewApplicant from './CreateNewApplicant'
-    import Swal from 'sweetalert2';
+  import CreateNewApplicant from './CreateNewApplicant'
+  import Swal from 'sweetalert2';
 
 
-    export default {
-        name: "HelloWorld",
+  export default {
+    name: "HelloWorld",
 
-        components: {
-            CreateNewApplicant,
+    components: {
+      CreateNewApplicant,
+    },
+
+    data: () => ({
+      messageElect: '',
+      skillsText: ['Навыки не указаны'],
+      messageTelephone: [],
+      messageEmail: [],
+      messageTitle: ' ',
+      user: [],
+      page: 1,
+      priority: false,
+      isEditing: false,
+      toggle_exclusive: undefined,
+      dialog: false,
+      result: '',
+      messageAvatar: '',
+
+      items: [
+        {
+          avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
+          elect: false,
+          active: true,
+          title: 'Бинман Иван Натанович',
+          subtitle: 'Full-stak разработчик',
+          telephone: ['+7(900)800-70-60'],
+          email: [`ioan@binman.ru`, `hgh@hghsga.ru`,],
+          rating: 1,
+          showBlokTelephone: true,
+          skillsText: ['HTML'],
+          showBlokEmail: true,
+          id: 1,
         },
+        {divider: true, inset: true},
+        {
+          avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
+          elect: false,
+          active: true,
+          title: 'Дурков Павел Владимирович',
+          subtitle: 'Full-stak разработчик',
+          telephone: [],
+          email: ['durkov@binman.ru',],
+          rating: 2,
+          showBlokTelephone: true,
+          skillsText: [`HTML`],
+          showBlokEmail: true,
+          id: 2,
+        },
+        {divider: true, inset: true},
+        {
+          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+          elect: false,
+          active: true,
+          title: 'Лебедина Алиса Александровна',
+          subtitle: "Web-дизайнер",
+          telephone: ['+7(800)802-70-60', '+7(800)802-70-61'],
+          email: ['design@binman.ru',],
+          rating: 3,
+          showBlokTelephone: true,
+          skillsText: ['Figma'],
+          showBlokEmail: true,
+          id: 3,
 
-        data: () => ({
-            messageElect: '',
-            skillsText: ['Навыки не указаны'],
-            messageTelephone: [],
-            messageEmail: [],
-            messageTitle: ' ',
-            user: [],
-            page: 1,
-            priority: false,
-            isEditing: false,
-            toggle_exclusive: undefined,
-            dialog: false,
-            result: '',
-            messageAvatar: '',
+        },
+        {divider: true, inset: true},
+        {
+          avatar: '',
+          elect: true,
+          active: true,
+          title: 'Чулкова Оля',
+          subtitle: "Web-дизайнер",
+          telephone: [],
+          email: [],
+          rating: 4,
+          showBlokTelephone: true,
+          skillsText: ['Figma'],
+          showBlokEmail: true,
+          id: 4,
+        },
+        {divider: true, inset: true},
+        {
+          avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
+          elect: false,
+          active: true,
+          title: 'Федора Линукс Линусовна',
+          subtitle: "Front-end зазработчик",
+          telephone: ['+7(900)800-70-89', '+7(900)900-70-56'],
+          email: ['ioan@binman.ru', 'luka@add.com'],
+          rating: 5,
+          showBlokTelephone: true,
+          skillsText: ['JS', 'HTML', 'Vue'],
+          showBlokEmail: true,
+          id: 5,
+        },
+      ],
+    }),
+    filters: {
+      toUpperCase(value) {
+        return value.toUpperCase()
+      }
+    },
+    computed: {
+      rating() {
+        return 0
+      },
+      ShowElect() {
+        let priority = this.priority;
+        return this.items.filter(function (item) {
+          if (priority) return item.elect === true;
+          else return item.elect === false || item.elect === true;
+        })
+      },
 
-            items: [
-                {
-                    avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-                    elect: false,
-                    active: true,
-                    title: 'Бинман Иван Натанович',
-                    subtitle: 'Full-stak разработчик',
-                    telephone: ['+7(900)800-70-60'],
-                    email: [`ioan@binman.ru`, `hgh@hghsga.ru`,],
-                    rating: 1,
-                    showBlokTelephone: true,
-                    skillsText: ['HTML'],
-                    showBlokEmail: true,
-                    id: 1,
-                },
-                {divider: true, inset: true},
-                {
-                    avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-                    elect: false,
-                    active: true,
-                    title: 'Дурков Павел Владимирович',
-                    subtitle: 'Full-stak разработчик',
-                    telephone: [],
-                    email: ['durkov@binman.ru',],
-                    rating: 2,
-                    showBlokTelephone: true,
-                    skillsText: [`HTML`],
-                    showBlokEmail: true,
-                    id: 2,
-                },
-                {divider: true, inset: true},
-                {
-                    avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-                    elect: false,
-                    active: true,
-                    title: 'Лебедина Алиса Александровна',
-                    subtitle: "Web-дизайнер",
-                    telephone: ['+7(800)802-70-60', '+7(800)802-70-61'],
-                    email: ['design@binman.ru',],
-                    rating: 3,
-                    showBlokTelephone: true,
-                    skillsText: ['Figma'],
-                    showBlokEmail: true,
-                    id: 3,
+    },
+    methods: {
 
-                },
-                {divider: true, inset: true},
-                {
-                    avatar: '',
-                    elect: true,
-                    active: true,
-                    title: 'Чулкова Оля',
-                    subtitle: "Web-дизайнер",
-                    telephone: [],
-                    email: [],
-                    rating: 4,
-                    showBlokTelephone: true,
-                    skillsText: ['Figma'],
-                    showBlokEmail: true,
-                    id: 4,
-                },
-                {divider: true, inset: true},
-                {
-                    avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-                    elect: false,
-                    active: true,
-                    title: 'Федора Линукс Линусовна',
-                    subtitle: "Front-end зазработчик",
-                    telephone: ['+7(900)800-70-89', '+7(900)900-70-56'],
-                    email: ['ioan@binman.ru', 'luka@add.com'],
-                    rating: 5,
-                    showBlokTelephone: true,
-                    skillsText: ['JS', 'HTML', 'Vue'],
-                    showBlokEmail: true,
-                    id: 5,
-                },
-            ],
-        }),
-        filters: {
-            toUpperCase(value) {
-              return value.toUpperCase()
+      skills() {
+       return this.skillsText.join();
+      },
+      showEmail2(item) {
+        const itemIndex = this.items.indexOf(item);
+        this.show3 = this.items[itemIndex].email[1];
+        this.items[itemIndex].showBlokEmail = !(this.items[itemIndex].showBlokEmail)
+      },
+      showTelephone2(item) {
+        const itemIndex = this.items.indexOf(item);
+        this.show2 = this.items[itemIndex].telephone[1];
+        this.items[itemIndex].showBlokTelephone = !(this.items[itemIndex].showBlokTelephone)
+      },
+      Editing(item) {
+        const itemIndex = this.items.indexOf(item);
+        this.dialog = true;
+        this.user = this.items[itemIndex];
+        this.messageTitle = this.user.title.split(' ');
+        this.messageTelephone = this.user.telephone;
+        this.messageEmail = this.user.email;
+        this.skillsText = this.user.skillsText;
+        this.messageAvatar = this.user.avatar;
+        this.messageElect = this.user.elect
+      },
+      CreateNewApplicant(newItem) {
+        this.items.push(newItem);
+      },
+
+      deleteTodo(item) {
+        Swal.fire({
+          title: 'Вы уверенны?',
+          text: "Вы не сможете вернуть это!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Да, удалить это!'
+        }).then((result) => {
+          const itemIndex = this.items.indexOf(item);
+          this.items.splice(itemIndex, 1);
+          this.items.splice(itemIndex, 1);
+          if (result.value) {
+            Swal.fire(
+              'Удаленно!',
+              'Ваш файл был удален.',
+              'success'
+            );
           }
-        },
-        computed: {
-            rating() {
-                return 0
-            },
-            ShowElect() {
-                let priority = this.priority;
-                return this.items.filter(function (item) {
-                    if (priority) return item.elect === true;
-                    else return item.elect === false || item.elect === true;
-                })
-            },
-
-        },
-        methods: {
-
-            skills() {
-                const result = this.skillsText.join()
-                return result
-
-            },
-            showEmail2(item) {
-                const itemIndex = this.items.indexOf(item)
-                this.show3 = this.items[itemIndex].email[1]
-                this.items[itemIndex].showBlokEmail = !(this.items[itemIndex].showBlokEmail)
-            },
-            showTelephone2(item) {
-                const itemIndex = this.items.indexOf(item)
-                this.show2 = this.items[itemIndex].telephone[1]
-                this.items[itemIndex].showBlokTelephone = !(this.items[itemIndex].showBlokTelephone)
-            },
-            Editing(item) {
-                const itemIndex = this.items.indexOf(item);
-                this.dialog = true;
-                this.user = this.items[itemIndex]
-                this.messageTitle = this.user.title.split(' ')
-                this.messageTelephone = this.user.telephone
-                this.messageEmail = this.user.email
-                this.skillsText = this.user.skillsText
-                this.messageAvatar = this.user.avatar
-                this.messageElect = this.user.elect
-            },
-            CreateNewApplicant(newItem) {
-                this.items.push(newItem);
-            },
-
-            deleteTodo(item) {
-                Swal.fire({
-                    title: 'Вы уверенны?',
-                    text: "Вы не сможете вернуть это!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Да, удалить это!'
-                }).then((result) => {
-                    const itemIndex = this.items.indexOf(item);
-                    this.items.splice(itemIndex, 1);
-                    this.items.splice(itemIndex, 1);
-                    if (result.value) {
-                        Swal.fire(
-                            'Удаленно!',
-                            'Ваш файл был удален.',
-                            'success'
-                        );
-                    }
-                });
-            },
-        }
+        });
+      },
     }
+  }
 
 </script>
 
-<style scope>
+<style >
 
 </style>

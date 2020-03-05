@@ -1,29 +1,30 @@
 <template>
     <v-row>
-        <v-col cols="12" sm="6" offset-sm="3">
+        <v-col cols="12" offset-sm="3" sm="6">
             <v-card>
                 <v-container fluid>
                     <v-row>
                         <v-col
-                                v-for="n in 9"
                                 :key="n"
                                 class="d-flex child-flex"
                                 cols="4"
+                                v-for="n in 9"
                         >
-                            <v-card flat tile class="d-flex">
+                            <v-card class="d-flex" flat tile>
                                 <v-img
-                                        :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
                                         :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+                                        :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
                                         aspect-ratio="1"
                                         class="grey lighten-2"
                                 >
                                     <template v-slot:placeholder>
                                         <v-row
-                                                class="fill-height ma-0"
                                                 align="center"
+                                                class="fill-height ma-0"
                                                 justify="center"
                                         >
-                                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                            <v-progress-circular color="grey lighten-5"
+                                                                 indeterminate></v-progress-circular>
                                         </v-row>
                                     </template>
                                 </v-img>
@@ -37,9 +38,9 @@
 </template>
 
 <script>
-    export default {
-        name: "About"
-    }
+  export default {
+    name: "About"
+  }
 </script>
 
 <style scoped>

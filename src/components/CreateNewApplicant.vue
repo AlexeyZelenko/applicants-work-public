@@ -79,84 +79,84 @@
 </template>
 
 <script>
-    import Swal from 'sweetalert2';
+  import Swal from 'sweetalert2';
 
-    export default {
-        name: "CreateNewApplicant",
+  export default {
+    name: "CreateNewApplicant",
 
-        data: () => ({
-            titleText: '',
-            telephoneText: '',
-            telephoneText2: '',
-            emailText: '',
-            emailText2: '',
-            avatar: '',
-            file: null,
-            elect: false,
-            active: true,
-            toggle_exclusive: undefined,
-            dialog: false,
-            skillsText: [],
-            vacancyText: '',
-            id: Date.now(),
+    data: () => ({
+      titleText: '',
+      telephoneText: '',
+      telephoneText2: '',
+      emailText: '',
+      emailText2: '',
+      avatar: '',
+      file: null,
+      elect: false,
+      active: true,
+      toggle_exclusive: undefined,
+      dialog: false,
+      skillsText: [],
+      vacancyText: '',
+      id: Date.now(),
 
-        }),
+    }),
 
-        methods: {
-            sendForm() {
-                if (this.titleText.length === 0 || this.telephoneText.length === 0 || this.emailText.length === 0) {
-                    Swal.fire({
-                        position: 'top',
-                        icon: 'error',
-                        title: `Соискатель не добавлен!!! Все поля должны быть заполнены!!!`,
-                        showConfirmButton: false,
-                        showCancelButton: true,
-                    });
-                }
-                if (this.titleText.length > 0 && this.telephoneText.length && this.emailText.length > 0) {
-                    const title = this.titleText;
-                    const telephone = [this.telephoneText, this.telephoneText2];
-                    const email = [this.emailText, this.emailText2];
-                    const avatar = this.avatar;
-                    const elect = this.elect;
-                    const subtitle = this.vacancyText;
-                    const skillsText = [this.skillsText[0], this.skillsText[1], this.skillsText[2],
-                    this.skillsText[3], this.skillsText[4], this.skillsText[5]];
-                    this.$emit('create-new-applicant', {
-                        title,
-                        telephone,
-                        email,
-                        elect,
-                        subtitle,
-                        rating: 1,
-                        avatar,
-                        active: true,
-                        skillsText,
-                        id: Date.now(),
-                    });
-                    this.titleText = '';
-                    this.telephoneText = '';
-                    this.telephoneText2 = '',
-                        this.emailText = '';
-                    this.emailText2 = '';
-                    this.avatar = '';
-                    this.vacancyText = '',
-                        this.elect = '',
-                        this.skillsText = '',
-
-                        Swal.fire({
-                            position: 'top',
-                            icon: 'success',
-                            title: 'Соискатель добавлен!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-
-                }
-                this.dialog = false
-            },
+    methods: {
+      sendForm() {
+        if (this.titleText.length === 0 || this.telephoneText.length === 0 || this.emailText.length === 0) {
+          Swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: `Соискатель не добавлен!!! Все поля должны быть заполнены!!!`,
+            showConfirmButton: false,
+            showCancelButton: true,
+          });
         }
+        if (this.titleText.length > 0 && this.telephoneText.length && this.emailText.length > 0) {
+          const title = this.titleText;
+          const telephone = [this.telephoneText, this.telephoneText2];
+          const email = [this.emailText, this.emailText2];
+          const avatar = this.avatar;
+          const elect = this.elect;
+          const subtitle = this.vacancyText;
+          const skillsText = [this.skillsText[0], this.skillsText[1], this.skillsText[2],
+            this.skillsText[3], this.skillsText[4], this.skillsText[5]];
+          this.$emit('create-new-applicant', {
+            title,
+            telephone,
+            email,
+            elect,
+            subtitle,
+            rating: 1,
+            avatar,
+            active: true,
+            skillsText,
+            id: Date.now(),
+          });
+          this.titleText = '';
+          this.telephoneText = '';
+          this.telephoneText2 = '';
+            this.emailText = '';
+          this.emailText2 = '';
+          this.avatar = '';
+          this.vacancyText = '';
+            this.elect = '';
+            this.skillsText = '';
+
+            Swal.fire({
+              position: 'top',
+              icon: 'success',
+              title: 'Соискатель добавлен!',
+              showConfirmButton: false,
+              timer: 1500
+            });
+
+        }
+        this.dialog = false
+      },
     }
+  }
 
 </script>
 
